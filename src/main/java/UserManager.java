@@ -8,9 +8,7 @@ public class UserManager {
 
     public UserManager() {
         users = new ArrayList<>();
-        User user = new User(lastUserID, "anonek21", "admin123", "filip.anonek@vp.pl", "Filip",
-                "Chajzer", "Bończa", "888 777 666",
-                true);
+        User user = new User(lastUserID, "testowehaslo", "testowyemail@vp.pl", "888-777-666", new ShippingAddress());
         addUser(user);
     }
 

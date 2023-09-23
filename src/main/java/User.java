@@ -3,32 +3,26 @@ import java.util.List;
 
 public class User {
     private int userID;
-    private String userName;
+    private String username;
     private String password;
     private String email;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String phoneNumber;
-    private boolean isActive;
+    private String phoneNumber; // format XXX-XXX-XXX
+    private ShippingAddress shippingAddress = new ShippingAddress();
+    private List<Order> orders = new ArrayList<>(); // Historia zamówień użytkownika
     List<PaymentMethodInterface> paymentMethods;
     private ShoppingCart shoppingCart;
 
-    public User(int userID, String userName,
-                String password, String email,
-                String firstName, String lastName,
-                String address, String phoneNumber,
-                boolean isActive) {
-
+    public User(String username,
+                String password,
+                String email,
+                String phoneNumber,
+                ShippingAddress shippingAddress) {
+        // TODO
         setUserID(userID);
-        setUserName(userName);
+        setUsername(username);
         setPassword(password);
         setEmail(email);
-        setFirstName(firstName);
-        setLastName(lastName);
-        setAddress(address);
         setPhoneNumber(phoneNumber);
-        setActive(isActive);
         this.paymentMethods = new ArrayList<>();
         this.shoppingCart = new ShoppingCart();
     }
@@ -42,15 +36,15 @@ public class User {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = username;
     }
 
     public String getEmail() {
