@@ -1,5 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
+import products.ProductCatalog;
+import users.UserManager;
+import products.ProductCatalog;
 
 public class Store {
     private ProductCatalog productCatalog;

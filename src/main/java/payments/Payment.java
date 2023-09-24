@@ -1,3 +1,5 @@
+package payments;
+
 public class Payment {
     private String paymentMethod;
     private double amount;

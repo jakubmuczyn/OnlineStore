@@ -1,3 +1,5 @@
+package orders;
+
 import java.util.Date;
 
 public class Discount {

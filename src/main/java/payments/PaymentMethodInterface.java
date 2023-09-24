@@ -1,3 +1,7 @@
+package payments;
+
+import payments.Payment;
+
 public interface PaymentMethodInterface {
 
     boolean validatePayment(Payment payment);
