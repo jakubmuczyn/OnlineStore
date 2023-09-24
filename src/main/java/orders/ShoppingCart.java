@@ -1,9 +1,13 @@
+package orders;
+
+import products.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
 
-    // TODO Product : quantity
+    // TODO products.Product : quantity
 
     private List<Product> items = new ArrayList<>();
 
@@ -18,11 +22,15 @@ public class ShoppingCart {
     public List<Product> getItems() {
         if (items.size() > 0)
             return items;
-        else
-        // TODO Komunikat "Koszyk jest pusty"
+        else {
+            // TODO Komunikat "Koszyk jest pusty"
+            System.out.println("Koszyk jest pusty");
+            return null;
+        }
+
     }
 
-    public void clearShoppingCart(List<Product>) {
+    public void clearShoppingCart() {
         items.clear();
     }
 

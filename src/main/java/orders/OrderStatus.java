@@ -1,5 +1,7 @@
+package orders;
+
 public enum OrderStatus {
-    ROZPOCZĘTE,
+    ROZPOCZETE,
     OPŁACONE,
     WYSŁANE,
     ZAKOŃCZONE,

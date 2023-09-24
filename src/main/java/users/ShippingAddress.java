@@ -1,3 +1,5 @@
+package users;
+
 public class ShippingAddress {
     private String firstName;
     private String lastName;

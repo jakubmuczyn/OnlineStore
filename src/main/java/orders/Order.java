@@ -1,3 +1,7 @@
+package orders;
+
+import products.Product;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +16,7 @@ public class Order {
         this.orderDate = new Date();
         this.orderProducts = orderProducts;
         this.totalPrice = calculateTotalPrice();
-        this.orderStatus = OrderStatus.ROZPOCZĘTE;
+        this.orderStatus = OrderStatus.ROZPOCZETE;
     }
 
     public int getOrderId() {
@@ -58,5 +62,6 @@ public class Order {
     private double calculateTotalPrice() {
         double totalPrice = 0;
         // TODO - Dla każdego elementu listy orderProducts pobierz cenę i dodaj do totalPrice
+        return totalPrice;
     }
 }
