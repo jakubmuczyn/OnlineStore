@@ -10,8 +10,6 @@ public class ShippingAddress {
     private String city;
     private String country;
 
-    // komentarz
-
     public ShippingAddress(String firstName, String lastName, String streetName, String unitNumber, String apartmentNumber, String zipCode, String city, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,7 +21,13 @@ public class ShippingAddress {
         this.country = country;
     }
 
+    // komentarz
+
     public ShippingAddress() {
+    }
+
+    public int getShippingAddressId() {
+        return shippingAddressId;
     }
 
     public String getFirstName() {
