@@ -1,6 +1,8 @@
 package users;
 
 public class ShippingAddress {
+    private static int vacantShippingAddressId;
+    private int shippingAddressId;
     private String firstName;
     private String lastName;
     private String streetName;
@@ -11,6 +13,8 @@ public class ShippingAddress {
     private String country;
 
     public ShippingAddress(String firstName, String lastName, String streetName, String unitNumber, String apartmentNumber, String zipCode, String city, String country) {
+        shippingAddressId = vacantShippingAddressId;
+        vacantShippingAddressId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.streetName = streetName;
