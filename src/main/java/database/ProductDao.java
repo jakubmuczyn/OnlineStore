@@ -2,7 +2,6 @@ package database;
 
 import products.Product;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ public class ProductDao implements DaoInterface<Product> {
         String queryString = "SELECT * FROM Products WHERE productId = ?";
         Product product = null;
 
+        //TODO How to close rs in finally
         try {
             PreparedStatement pstmt = conn.prepareStatement(queryString);
             pstmt.setInt(1, id);
@@ -46,15 +46,13 @@ public class ProductDao implements DaoInterface<Product> {
 
     @Override
     public List<Product> getAll() {
-        Connection conn = Database.connect();
         String queryString = "SELECT * FROM Products";
         Product product = null;
         List<Product> products = new ArrayList<>();
 
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(queryString);
-
+        try (Connection conn = Database.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(queryString);) {
             while (rs.next()) {
                 int id = rs.getInt("productId");
                 String name = rs.getString("name");
@@ -67,19 +65,8 @@ public class ProductDao implements DaoInterface<Product> {
                 product = new Product(id, name, description, category, price, quantityInStock);
                 products.add(product);
             }
-
-            rs.close();
-            stmt.close();
-            conn.close();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
 
         return products;
@@ -90,10 +77,9 @@ public class ProductDao implements DaoInterface<Product> {
         String sql = "INSERT INTO Products (name, description, category, price, stock, productId)";
         sql += "VALUES(?, ?, ?, ?, ?, ?);";
 
-        Connection conn = Database.connect();
 
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (Connection conn = Database.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
             pstmt.setString(1, product.getName());
             pstmt.setString(2, product.getDescription());
             pstmt.setString(3, product.getCategory());
@@ -102,9 +88,6 @@ public class ProductDao implements DaoInterface<Product> {
             pstmt.setInt(6, getVacantId());
 
             pstmt.executeUpdate();
-
-            pstmt.close();
-            conn.close();
 
         } catch (SQLException e) {
             System.out.println("Runtime exception: " + e.getMessage());
@@ -123,19 +106,16 @@ public class ProductDao implements DaoInterface<Product> {
         }
         return ammountOfProducts;
     }
+
     public int getVacantId() {
-        Connection conn = Database.connect();
         String queryString = "SELECT max(productId) FROM Products";
         int maxId = -1;
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(queryString);
+        try (Connection conn = Database.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(queryString);) {
+
             if (rs.next())
                 maxId = rs.getInt(1) + 1;
-
-            rs.close();
-            stmt.close();
-            conn.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
