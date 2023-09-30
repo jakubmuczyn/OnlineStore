@@ -17,6 +17,7 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
+
     public double getAmount() {
         return amount;
     }

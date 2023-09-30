@@ -19,9 +19,7 @@ public class Order {
         this.orderStatus = OrderStatus.ROZPOCZETE;
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
+    public int getOrderId() { return orderId; }
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
@@ -59,9 +57,11 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    private double calculateTotalPrice() {
+    public double calculateTotalPrice() {
         double totalPrice = 0;
-        // TODO - Dla każdego elementu listy orderProducts pobierz cenę i dodaj do totalPrice
+        for (Product product : orderProducts) {
+            totalPrice += product.getPrice();
+        }
         return totalPrice;
     }
 }
