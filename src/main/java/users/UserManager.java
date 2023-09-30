@@ -69,7 +69,7 @@ public class UserManager {
     }
     
     public static User getUserById(int userId) {
-        ArrayList<User> user = (ArrayList<User>) users.stream().filter(u -> u.getUserID() == userId).toList();
+        ArrayList<User> user = (ArrayList<User>) users.stream().filter(u -> u.getUserID() == userId).collect(Collectors.toList());
         return user.get(0);
     }
     
