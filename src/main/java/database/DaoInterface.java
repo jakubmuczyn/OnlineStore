@@ -10,6 +10,8 @@ public interface DaoInterface <T> {
 
     List<T> getAll();
     void save(T t);
-    void update(String parameterName, Object parameterValue);
+    // W samej metodzie po nazwie parametrów
+    <K> void update(T product, String parameterName, K parameterValue);
+
     void delete(T t);
 }
