@@ -28,6 +28,11 @@ public class ProductDao implements DaoInterface<Product> {
     }
 
     @Override
+    public Optional<Product> get(Product product) {
+        int productId = product.getId();
+        return get(productId);
+    }
+    @Override
     public Optional<Product> get(int id) {
         String queryString = "SELECT * FROM Products WHERE productId = ?";
         Product product = null;
