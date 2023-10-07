@@ -8,8 +8,8 @@ public class Product {
     private String name;
     private String description;
     private String category;
-    private double price;
-    private int quantityInStock;
+    private Double price;
+    private Integer quantityInStock;
 
     public Product(int id, String name, String description, String category, double price, int quantityInStock) {
         this.id = id;
@@ -19,13 +19,17 @@ public class Product {
         this.price = price;
         this.quantityInStock = quantityInStock;
     }
+    public Product(int id, String name, String description, String category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = null;
+        this.quantityInStock = null;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
