@@ -15,8 +15,9 @@ public class ProductCatalog {
         products = productDao.getAll();
     }
 
-    public Product createProduct(int id, String name, String description, String category, Double price, int quantityInStock) {
-        Product product = new Product(id, name, description, category, price, quantityInStock);
+    public Product createProduct(String name, String description, String category, Double price, int quantityInStock) {
+        int vacantId = productDao.getVacantId();
+        Product product = new Product(vacantId, name, description, category, price, quantityInStock);
 
         productDao.save(product);
         products.add(product);
