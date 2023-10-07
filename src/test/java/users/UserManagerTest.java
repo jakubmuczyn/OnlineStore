@@ -3,6 +3,7 @@ package users;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,38 +32,41 @@ class UserManagerTest {
     
     @Test
     void testValidPassword() {
-//        assertAll(
-//                () -> assertTrue(UserManager.isValidPassword("P@ssw0rd")),
-//                () -> assertTrue(UserManager.isValidPassword("Secret123!")),
-//                () -> assertFalse(UserManager.isValidPassword("simple")),
-//                () -> assertFalse(UserManager.isValidPassword("NoDigit!")),
-//                () -> assertFalse(UserManager.isValidPassword("NoUpperCase123"))
-//        );
+        User user = getAnyUser();
+        assertAll(
+                () -> assertDoesNotThrow(() -> user.setPassword("P@ssw0rd")),
+                () -> assertDoesNotThrow(() -> user.setPassword("Secret123!")),
+                () -> assertThrows(IllegalArgumentException.class,() -> user.setPassword("simple")),
+                () -> assertThrows(IllegalArgumentException.class,() -> user.setPassword("NoDigit!")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setPassword("NoUpperCase123"))
+        );
     }
     
     @Test
     void testValidEmail() {
-//        assertAll(
-//                () -> assertTrue(UserManager.isValidEmail("user@example.com")),
-//                () -> assertTrue(UserManager.isValidEmail("jan.kowalski123@poczta.onet.pl")),
-//                () -> assertFalse(UserManager.isValidEmail("invalid_email")),
-//                () -> assertFalse(UserManager.isValidEmail("user@.com")),
-//                () -> assertFalse(UserManager.isValidEmail("user@example."))
-//        );
+        User user = getAnyUser();
+        assertAll(
+                () -> assertDoesNotThrow(() -> user.setEmail("user@example.com")),
+                () -> assertDoesNotThrow(() -> user.setEmail("jan.kowalski123@poczta.onet.pl")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setEmail("invalid_email")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setEmail("user@.com")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setEmail("user@example."))
+        );
     }
     
     @Test
     void testValidPhoneNumber() {
-//        assertAll(
-//                () -> assertTrue(UserManager.isValidPhoneNumber("123456789")),
-//                () -> assertTrue(UserManager.isValidPhoneNumber("123-456-789")),
-//                () -> assertTrue(UserManager.isValidPhoneNumber("+48123456789")),
-//                () -> assertTrue(UserManager.isValidPhoneNumber("+123123-456-789")),
-//                () -> assertFalse(UserManager.isValidPhoneNumber("1234567890")),
-//                () -> assertFalse(UserManager.isValidPhoneNumber("1234")),
-//                () -> assertFalse(UserManager.isValidPhoneNumber("12-34-56-789")),
-//                () -> assertFalse(UserManager.isValidPhoneNumber("+12-34-56-789"))
-//        );
+        User user = getAnyUser();
+        assertAll(
+                () -> assertDoesNotThrow(() -> user.setPhoneNumber("123456789")),
+                () -> assertDoesNotThrow(() -> user.setPhoneNumber("123-456-789")),
+                () -> assertDoesNotThrow(() -> user.setPhoneNumber("+48123456789")),
+                () -> assertDoesNotThrow(() -> user.setPhoneNumber("+123123-456-789")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setPhoneNumber("1234567890")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setPhoneNumber("1234")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setPhoneNumber("12-34-56-789")),
+                () -> assertThrows(IllegalArgumentException.class, () -> user.setPhoneNumber("+12-34-56-789"))
+        );
     }
     
     @Test
