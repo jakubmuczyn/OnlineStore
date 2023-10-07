@@ -3,6 +3,7 @@ package users;
 import orders.Order;
 import orders.ShoppingCart;
 import payments.PaymentMethodInterface;
+import validators.UserValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +18,9 @@ public class User {
     private List<Order> orders = new ArrayList<>(); // Historia zamówień użytkownika
     List<PaymentMethodInterface> paymentMethods;
     private ShoppingCart shoppingCart;
+    private UserValidator validator = new UserValidator();
 
-    public User(int userID,
-                String username,
-                String password,
-                String email,
-                String phoneNumber ) {
-        // TODO
+    public User(int userID, String username, String password, String email, String phoneNumber ) {
         setUserID(userID);
         setUsername(username);
         setPassword(password);
@@ -50,10 +47,12 @@ public class User {
     }
 
     public void setPassword(String password) {
+        validator.validatePassword(password);
         this.password = password;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username){
+        validator.validateUsername(username);
         this.username = username;
     }
 
@@ -62,12 +61,14 @@ public class User {
     }
 
     public void setEmail(String email) {
+        validator.validateEmail(email);
         this.email = email;
     }
 
     public String getPhoneNumber() { return phoneNumber; }
 
     public void setPhoneNumber(String phoneNumber) {
+        validator.validatePhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
     }
 
@@ -86,11 +87,6 @@ public class User {
     public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-
-    // public users.users.ShippingAddress getShippingAddressById(int shippingAddressId) {
-    //     ArrayList<users.users.ShippingAddress> shippingAddressesList = (ArrayList<users.users.ShippingAddress>) shippingAddresses.stream().filter((s) -> s.getShippingAddressId() == shippingAddressId).collect(Collectors.toList());
-    //     return shippingAddressesList.get(0);
-    // }
 
     public int getShippingAddressPosition(int shippingAddressId) {
         int pos;
