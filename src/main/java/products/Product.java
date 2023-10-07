@@ -8,26 +8,27 @@ public class Product {
     private String name;
     private String description;
     private String category;
-    private Double price;
-    private Integer quantityInStock;
+    private Double price = null;
+    private Integer quantityInStock = null;
 
     public Product(int id, String name, String description, String category, double price, int quantityInStock) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.price = price;
-        this.quantityInStock = quantityInStock;
+        setId(id);
+        setName(name);
+        setDescription(description);
+        setCategory(category);
+        setPrice(price);
+        setQuantityInStock(quantityInStock);
     }
     public Product(int id, String name, String description, String category) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.price = null;
-        this.quantityInStock = null;
+        setId(id);
+        setName(name);
+        setDescription(description);
+        setCategory(category);
+        setPrice(price);
+        setQuantityInStock(quantityInStock);
     }
 
+    private void setId(int id) {this.id = id;}
     public int getId() {
         return id;
     }
