@@ -1,5 +1,6 @@
 package database;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import products.Product;
 
@@ -10,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProductDaoTest {
     ProductDao productDriver = new ProductDao();
+    Product testProduct;
 
+    @AfterEach
+    void deleteTestProduct() { if (testProduct != null) productDriver.delete(testProduct); }
     @Test
     void getAny() {
         assertNotNull(productDriver.get(1));
@@ -29,87 +33,85 @@ class ProductDaoTest {
 
     @Test
     void save() {
-        ProductDao productDao = new ProductDao();
-        Product testProduct = createTestProduct(productDao);
-        productDao.save(testProduct);
+        Product testProduct = createAndSaveTestProduct();
 
-        Optional<Product> retrievedProduct = productDao.get(testProduct.getId());
+        Optional<Product> retrievedProduct = productDriver.get(testProduct.getId());
         assertFalse(retrievedProduct.isEmpty());
         assertEquals(retrievedProduct.get(), testProduct);
-        // AskBoss
-        productDao.delete(retrievedProduct.get());
+        productDriver.delete(retrievedProduct.get());
     }
 
-    private Product createTestProduct(ProductDao productDao) {
-        int freeId = productDao.getVacantId();
+    private Product createTestProduct() {
+        int freeId = productDriver.getVacantId();
         return new Product(freeId, "Test name", "Test description", "Test category", 2.0D, 20);
+    }
+
+    private Product createAndSaveTestProduct() {
+        Product product = createTestProduct();
+        productDriver.save(product);
+        return product;
     }
 
     @Test
     void getAmmountOfProducts() {
-        ProductDao productDao = new ProductDao();
-        int ammountOfProducts = productDao.getAmmountOfProducts();
+        int ammountOfProducts = productDriver.getAmmountOfProducts();
         assertTrue(ammountOfProducts >= 0);
     }
 
     @Test
     void delete() {
-        ProductDao productDao = new ProductDao();
-        int initialAmmountOfProducts = productDao.getAmmountOfProducts();
-        Product testProduct = createTestProduct(productDao);
-        productDao.save(testProduct);
-        int ammountOfProductsAfterAdd = productDao.getAmmountOfProducts();
+        int initialAmmountOfProducts = productDriver.getAmmountOfProducts();
+        Product testProduct = createAndSaveTestProduct();
+        int ammountOfProductsAfterAdd = productDriver.getAmmountOfProducts();
 
-        Optional<Product> retrievedProduct = productDao.get(testProduct.getId());
-        productDao.delete(retrievedProduct.get());
-        int finalAmmountOfProducts = productDao.getAmmountOfProducts();
+        Optional<Product> retrievedProduct = productDriver.get(testProduct.getId());
+        if (retrievedProduct.isEmpty()) fail();
+        productDriver.delete(retrievedProduct.get());
+        int finalAmmountOfProducts = productDriver.getAmmountOfProducts();
 
         assertTrue(initialAmmountOfProducts < ammountOfProductsAfterAdd);
         assertEquals(initialAmmountOfProducts, finalAmmountOfProducts);
+
+        Optional<Product> retrievedProductAfterDelete = productDriver.get(testProduct.getId());
+        assertTrue(retrievedProductAfterDelete.isEmpty());
     }
 
     @Test
     void updateString() {
-        ProductDao productDao = new ProductDao();
-        Product testProduct = createTestProduct(productDao);
-        productDao.save(testProduct);
+        Product testProduct = createAndSaveTestProduct();
 
         String initialName = testProduct.getName();
-        productDao.update(testProduct, "name", "nazwa po zmianie");
-        Product productAfterChange = productDao.get(testProduct.getId()).get();
+        productDriver.update(testProduct, "name", "nazwa po zmianie");
+        Optional<Product> productOptional = productDriver.get(testProduct.getId());
+        if (productOptional.isEmpty()) fail("Product was not added to database.");
+        Product productAfterChange = productOptional.get();
         assertNotEquals(initialName, productAfterChange.getName());
         assertEquals("nazwa po zmianie", productAfterChange.getName());
-
-        productDao.delete(productAfterChange);
     }
 
     @Test
     void updateDouble() {
-        ProductDao productDao = new ProductDao();
-        Product testProduct = createTestProduct(productDao);
-        productDao.save(testProduct);
+        Product testProduct = createAndSaveTestProduct();
 
         Double initialPrice = testProduct.getPrice();
-        productDao.update(testProduct, "price", 0.5D);
-        Product productAfterChange = productDao.get(testProduct.getId()).get();
+        productDriver.update(testProduct, "price", 0.5D);
+        Optional<Product> productOptional = productDriver.get(testProduct.getId());
+        if (productOptional.isEmpty()) fail("Product was not added to database.");
+        Product productAfterChange = productOptional.get();
         assertNotEquals(initialPrice, productAfterChange.getPrice());
-        assertEquals(0.5D, productAfterChange.getPrice() );
-
-        productDao.delete(productAfterChange);
+        assertEquals(0.5D, productAfterChange.getPrice());
     }
 
     @Test
     void updateInt() {
-        ProductDao productDao = new ProductDao();
-        Product testProduct = createTestProduct(productDao);
-        productDao.save(testProduct);
+        Product testProduct = createAndSaveTestProduct();
 
         int initialQuantity = testProduct.getQuantityInStock();
-        productDao.update(testProduct, "stock", 27);
-        Product productAfterChange = productDao.get(testProduct.getId()).get();
+        productDriver.update(testProduct, "stock", 27);
+        Optional<Product> productOptional = productDriver.get(testProduct.getId());
+        if (productOptional.isEmpty()) fail("Product was not added to database.");
+        Product productAfterChange = productOptional.get();
         assertNotEquals(initialQuantity, productAfterChange.getQuantityInStock());
-        assertEquals(27, productAfterChange.getQuantityInStock() );
-
-        productDao.delete(productAfterChange);
+        assertEquals(27, productAfterChange.getQuantityInStock());
     }
-    }
+}

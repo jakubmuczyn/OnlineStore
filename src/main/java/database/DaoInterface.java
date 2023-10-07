@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface DaoInterface <T> {
     Optional<T> get(int id);
+    Optional<T> get(T item);
 
     List<T> getAll();
     void save(T t);

@@ -4,20 +4,19 @@ import database.ProductDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-class ProductCatalogTest {
+class ProductCatalogCreateReadDeleteTest {
     ProductDao productDao = new ProductDao();
     ProductCatalog productCatalog;
+    Product testProduct = null;
 
     @BeforeEach
     void reintializeProductCalatalog() { productCatalog = new ProductCatalog();}
     Product createTestProduct(){
         int vacantId = productDao.getVacantId();
-        return productCatalog.createProduct(vacantId, "Test", "Create product from Catalogue", "Tests", 0D, 0);
+        return productCatalog.createProduct("Test", "Create product from Catalogue", "Tests", 0D, 0);
     }
     @Test
     void createProduct() {
-//        ProductDao productDao = new ProductDao();
-//        int vacantId = productDao.getVacantId();
         Product product = createTestProduct();
 
         assertTrue(productCatalog.getProducts().contains(product));
