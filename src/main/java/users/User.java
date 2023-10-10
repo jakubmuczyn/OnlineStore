@@ -7,6 +7,7 @@ import validators.UserValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private int userID;
@@ -32,6 +33,10 @@ public class User {
 
     public List<ShippingAddress> getShippingAddresses() {
         return shippingAddresses;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public int getUserID() {
@@ -107,5 +112,22 @@ public class User {
         shippingAddresses.remove(shippingAddresPosition);
     }
 
+    public boolean isIdenticalTo(Object o) {
+       if (!this.equals(o))
+           return false;
+       User comparedUser = (User) o;
+       return this.getEmail().equals(comparedUser.getEmail()) && this.getPassword().equals(comparedUser.getPassword()) && this.getPhoneNumber().equals(comparedUser.getPhoneNumber());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userID == user.userID && Objects.equals(username, user.username);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(userID, username);
+    }
 }
