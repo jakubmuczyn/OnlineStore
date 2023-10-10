@@ -3,8 +3,14 @@ package validators;
 public class UserValidator {
     public void validatePassword(String password) throws IllegalArgumentException {
         String regex = "^(?=.*\\d)(?=.*[A-Z])(?=.*\\W).{8,}$";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Niepoprawny format hasło. Hasło musi spełniać następujące warunki: ");
+        sb.append("\n - Zawierać co najmniej jedną cyfrę.");
+        sb.append("\n - Zawierać co najmniej jedną dużą literę.");
+        sb.append("\n - Zawierać co najmniej jeden znak specjalny.");
+        sb.append("\n - Posiadać co najmniej 8 znaków.");
         if (!Validator.validateRegex(regex, password))
-            throw new IllegalArgumentException(("Niepoprawny format hasła"));
+            throw new IllegalArgumentException(sb.toString());
     }
     public void validateUsername(String username) throws IllegalArgumentException {
         String regex = "^\\w{4,}$";
